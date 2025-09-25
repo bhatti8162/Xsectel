@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SI Online Solutions - Payment</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Service prices
+    const servicePrices = {
+      "GRC Consultancy": 250,
+      "Security Consultancy": 400,
+      "Infrastructure Consultancy": 350,
+      "IT Strategy & Advisory": 300,
+      "Compliance Audits": 280
+    };
+
+    // Custom redirect URLs (example)
+    const serviceLinks = {
+      "GRC Consultancy": "https://yoursite.com/payment/grc",
+      "Security Consultancy": "https://yoursite.com/payment/security",
+      "Infrastructure Consultancy": "https://yoursite.com/payment/infrastructure",
+      "IT Strategy & Advisory": "https://yoursite.com/payment/strategy",
+      "Compliance Audits": "https://yoursite.com/payment/audit"
+    };
+
+    function updatePrice() {
+      const service = document.getElementById("service").value;
+      const priceField = document.getElementById("price");
+      if (service && servicePrices[service]) {
+        priceField.value = servicePrices[service];
+      } else {
+        priceField.value = "";
+      }
+    }
+
+    // Set min date = today + 2 days
+    window.onload = function () {
+      const dateField = document.getElementById("date");
+      const today = new Date();
+      today.setDate(today.getDate() + 2);
+      const minDate = today.toISOString().split("T")[0];
+      dateField.setAttribute("min", minDate);
+    };
+
+    // Validate only weekdays
+    function validateDate(event) {
+      const selectedDate = new Date(event.target.value);
+      const day = selectedDate.getUTCDay(); // 0=Sun, 6=Sat
+      if (day === 0 || day === 6) {
+        alert("Please select a working day (Monday–Friday).");
+        event.target.value = "";
+      }
+    }
+
+    // Change form action based on selected service
+    function setFormAction(event) {
+      event.preventDefault();
+      const service = document.getElementById("service").value;
+      const form = document.getElementById("paymentForm");
+      if (service && serviceLinks[service]) {
+        form.action = serviceLinks[service];
+        form.submit();
+      } else {
+        alert("Please select a valid service.");
+      }
+    }
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <h1>SI Online Solutions</h1>
+    <p>Secure. Compliant. Future-Ready IT Consulting.</p>
+
+  </header>
+
+  <section id="payment">
+    <h2>Secure Payment</h2>
+    <div class="payment-form">
+      <form id="paymentForm" method="post" onsubmit="setFormAction(event)">
+
+        <!-- 2Checkout Seller ID (optional if you use custom redirects) -->
+        <input type="hidden" name="sid" value="YOUR_SELLER_ID">
+        <input type="hidden" name="mode" value="2CO">
+
+        <label for="service">Choose a Service:</label>
+        <select name="li_0_name" id="service" onchange="updatePrice()" required>
+          <option value="">-- Select a Service --</option>
+          <option value="GRC Consultancy">GRC Consultancy</option>
+          <option value="Security Consultancy">Security Consultancy</option>
+          <option value="Infrastructure Consultancy">Infrastructure Consultancy</option>
+          <option value="IT Strategy & Advisory">IT Strategy & Advisory</option>
+          <option value="Compliance Audits">Compliance Audits</option>
+        </select>
+
+        <label for="price">Price (USD):</label>
+        <input type="number" name="li_0_price" id="price" readonly required>
+
+        <label for="email">Your Email:</label>
+        <input type="email" name="customer_email" id="email" placeholder="you@example.com" required>
+
+        <label for="date">Preferred Date:</label>
+        <input type="date" name="consult_date" id="date" onchange="validateDate(event)" required>
+
+        <button type="submit" class="btn">Proceed to Payment</button>
+      </form>
+
+    </div>
+    <div style="text-align:center; margin-top:20px;">
+      <a href="index.html" style="text-decoration:none; padding:10px 20px; border-radius:6px; display:inline-block;">
+        ⬅ Back to Home
+      </a>
+    </div>
+  </section>
+
+
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <div class="contact">
+      <p>Email: <a href="mailto:sionlinesolutions@gmail.com">sionlinesolutions@gmail.com</a></p>
+      <p>Address: Plot # , Street # , Sector B, Kashmir Colony</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 SI Online Solutions. All rights reserved.</p>
+  </footer>
+
+</body>
+
+</html>
