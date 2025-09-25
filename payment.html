@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SI Online Solutions - Payment</title>
   <link rel="stylesheet" href="style.css">
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <script>
     // Service prices
     const servicePrices = {
@@ -25,6 +28,7 @@
       "Compliance Audits": "https://yoursite.com/payment/audit"
     };
 
+    // Update price dynamically
     function updatePrice() {
       const service = document.getElementById("service").value;
       const priceField = document.getElementById("price");
@@ -53,35 +57,57 @@
         event.target.value = "";
       }
     }
-
-    // Change form action based on selected service
-    function setFormAction(event) {
-      event.preventDefault();
-      const service = document.getElementById("service").value;
-      const form = document.getElementById("paymentForm");
-      if (service && serviceLinks[service]) {
-        form.action = serviceLinks[service];
-        form.submit();
-      } else {
-        alert("Please select a valid service.");
-      }
-    }
   </script>
+
+  <!-- Google Sheet + redirect handler -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const scriptURL = "https://formspree.io/f/mldpdbqk";
+      const form = document.getElementById("paymentForm");
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+
+        try {
+          const formData = new FormData(form);
+
+          await fetch(scriptURL, {
+            method: "POST",
+            body: formData,
+            mode: "no-cors" // ⚠️ hides response, always assume success
+          });
+
+          swal("Done", "Submitted. Payment Page Loading... ", "success");
+
+          const service = document.getElementById("service").value;
+          if (service && serviceLinks[service]) {
+            window.location.href = serviceLinks[service];
+          }
+
+          form.reset();
+
+        } catch (error) {
+          console.error("Submission Error:", error);
+          swal("Error", "Something went wrong. Please try again!", "error");
+        }
+      }
+
+      form.addEventListener("submit", handleSubmit);
+    });
+  </script>
+
 </head>
 
 <body>
-
   <header>
     <h1>SI Online Solutions</h1>
     <p>Secure. Compliant. Future-Ready IT Consulting.</p>
-
   </header>
 
   <section id="payment">
     <h2>Secure Payment</h2>
     <div class="payment-form">
-      <form id="paymentForm" method="post" onsubmit="setFormAction(event)">
-
+      <form id="paymentForm" method="post">
         <!-- 2Checkout Seller ID (optional if you use custom redirects) -->
         <input type="hidden" name="sid" value="YOUR_SELLER_ID">
         <input type="hidden" name="mode" value="2CO">
@@ -115,16 +141,14 @@
           agree to this policy.
         </p>
       </div>
-
     </div>
+
     <div style="text-align:center; margin-top:20px;">
       <a href="index.html" style="text-decoration:none; padding:10px 20px; border-radius:6px; display:inline-block;">
         ⬅ Back to Home
       </a>
     </div>
   </section>
-
-
 
   <section id="contact">
     <h2>Contact Us</h2>
@@ -137,7 +161,6 @@
   <footer>
     <p>&copy; 2025 SI Online Solutions. All rights reserved.</p>
   </footer>
-
 </body>
 
 </html>
