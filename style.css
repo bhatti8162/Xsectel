@@ -50,6 +50,24 @@ header p {
   color: #ddd;
 }
 
+
+/* ============================
+  Xsectel Logo
+============================= */
+.x-logo{
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 50%; /* makes it round */
+  vertical-align: middle;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.x-logo:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
 /* ============================
    Navigation
 ============================= */
@@ -280,4 +298,85 @@ a:hover {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+
+/* ============================
+   Contact Page Layout
+============================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 50px;
+  align-items: start;
+  margin-top: 50px;
+}
+
+.contact-info {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.15);
+}
+
+.contact-info h3 {
+  color: var(--primary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+.contact-info p {
+  color: #ccc;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.contact-info a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.social-links .icon {
+  font-size: 1.4rem;
+  transition: 0.3s;
+}
+
+.social-links a:hover .icon {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 6px var(--primary));
+}
+
+/* Form Textarea */
+textarea {
+  background-color: var(--input-bg);
+  color: var(--text-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  resize: none;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+  border-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
 }
