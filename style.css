@@ -52,22 +52,43 @@ header p {
 
 
 /* ============================
-  Xsectel Logo
+   Xsectel Logo (Responsive)
 ============================= */
-.x-logo{
-  width: 400px;
-  height: 400px;
+.x-logo {
+  width: 380px;
+  height: 380px;
+  max-width: 40vw; /* scales nicely on tablets and phones */
   object-fit: cover;
   border-radius: 50%; /* makes it round */
   vertical-align: middle;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.25);
   transition: all 0.3s ease;
+  margin: 0 auto;
+  display: block;
 }
 
 .x-logo:hover {
   transform: scale(1.08);
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
 }
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .x-logo {
+    width: 220px;
+    height: 220px;
+    max-width: 50vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .x-logo {
+    width: 220px; 
+    height: 220px;
+    max-width: 55vw;
+  }
+}
+
 /* ============================
    Navigation
 ============================= */
