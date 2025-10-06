@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SI Online Solutions - Payment</title>
-  <link rel="stylesheet" href="style.css">
-
+  <title>Secure Payment - SI Online Solutions</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <script>
-    // Service prices
+    // --- Service prices ---
     const servicePrices = {
       "GRC Consultancy": 250,
       "Security Consultancy": 400,
@@ -19,83 +18,72 @@
       "Compliance Audits": 280
     };
 
-    // Custom redirect URLs (example)
+    // --- Redirect links (after successful form submission) ---
     const serviceLinks = {
-      "GRC Consultancy": "https://yoursite.com/payment/grc",
-      "Security Consultancy": "https://yoursite.com/payment/security",
-      "Infrastructure Consultancy": "https://yoursite.com/payment/infrastructure",
-      "IT Strategy & Advisory": "https://yoursite.com/payment/strategy",
-      "Compliance Audits": "https://yoursite.com/payment/audit"
+      "GRC Consultancy": "https://yourdomain.com/payment/grc",
+      "Security Consultancy": "https://yourdomain.com/payment/security",
+      "Infrastructure Consultancy": "https://yourdomain.com/payment/infrastructure",
+      "IT Strategy & Advisory": "https://yourdomain.com/payment/strategy",
+      "Compliance Audits": "https://yourdomain.com/payment/audit"
     };
 
-    // Update price dynamically
+    // --- Update price dynamically ---
     function updatePrice() {
       const service = document.getElementById("service").value;
-      const priceField = document.getElementById("price");
-      if (service && servicePrices[service]) {
-        priceField.value = servicePrices[service];
-      } else {
-        priceField.value = "";
-      }
+      document.getElementById("price").value = servicePrices[service] || "";
     }
 
-    // Set min date = today + 2 days
+    // --- Set min selectable date (today + 2 days) ---
     window.onload = function () {
       const dateField = document.getElementById("date");
       const today = new Date();
       today.setDate(today.getDate() + 2);
-      const minDate = today.toISOString().split("T")[0];
-      dateField.setAttribute("min", minDate);
+      dateField.min = today.toISOString().split("T")[0];
     };
 
-    // Validate only weekdays
+    // --- Validate only weekdays ---
     function validateDate(event) {
       const selectedDate = new Date(event.target.value);
-      const day = selectedDate.getUTCDay(); // 0=Sun, 6=Sat
+      const day = selectedDate.getUTCDay(); // 0 = Sunday, 6 = Saturday
       if (day === 0 || day === 6) {
-        alert("Please select a working day (Monday–Friday).");
+        swal("Invalid Date", "Please select a working day (Monday–Friday).", "warning");
         event.target.value = "";
       }
     }
-  </script>
 
-  <!-- Google Sheet + redirect handler -->
-  <script>
+    // --- Handle Form Submission ---
     document.addEventListener("DOMContentLoaded", function () {
-      const scriptURL = "https://formspree.io/f/xwprpbkb";
       const form = document.getElementById("paymentForm");
+      const scriptURL = "https://formspree.io/f/xwprpbkb";
 
-      async function handleSubmit(e) {
+      form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         try {
           const formData = new FormData(form);
-
           await fetch(scriptURL, {
             method: "POST",
             body: formData,
-            mode: "no-cors" // ⚠️ hides response, always assume success
+            mode: "no-cors"
           });
 
-          swal("Done", "Submitted. Payment Page Loading... ", "success");
+          swal("Success", "Your request has been submitted. Redirecting to payment page...", "success");
 
           const service = document.getElementById("service").value;
-          if (service && serviceLinks[service]) {
-            window.location.href = serviceLinks[service];
+          if (serviceLinks[service]) {
+            setTimeout(() => {
+              window.location.href = serviceLinks[service];
+            }, 2000);
           }
 
           form.reset();
-
         } catch (error) {
           console.error("Submission Error:", error);
-          swal("Error", "Something went wrong. Please try again!", "error");
+          swal("Error", "Something went wrong. Please try again later.", "error");
         }
-      }
-
-      form.addEventListener("submit", handleSubmit);
+      });
     });
   </script>
-
 </head>
 
 <body>
@@ -105,48 +93,40 @@
   </header>
 
   <section id="payment">
-    <h2>Secure Payment</h2>
-    <div class="payment-form">
-      <form id="paymentForm" method="post">
-        <!-- 2Checkout Seller ID (optional if you use custom redirects) -->
-        <input type="hidden" name="sid" value="YOUR_SELLER_ID">
-        <input type="hidden" name="mode" value="2CO">
+    <h2>Secure Payment Portal</h2>
 
-        <label for="service">Choose a Service:</label>
-        <select name="li_0_name" id="service" onchange="updatePrice()" required>
-          <option value="">-- Select a Service --</option>
-          <option value="GRC Consultancy">GRC Consultancy</option>
-          <option value="Security Consultancy">Security Consultancy</option>
-          <option value="Infrastructure Consultancy">Infrastructure Consultancy</option>
-          <option value="IT Strategy & Advisory">IT Strategy & Advisory</option>
-          <option value="Compliance Audits">Compliance Audits</option>
-        </select>
+    <form id="paymentForm" class="payment-form" method="post">
+      <input type="hidden" name="sid" value="YOUR_SELLER_ID">
+      <input type="hidden" name="mode" value="2CO">
 
-        <label for="price">Price (USD):</label>
-        <input type="number" name="li_0_price" id="price" readonly required>
+      <label for="service">Choose a Service:</label>
+      <select name="li_0_name" id="service" onchange="updatePrice()" required>
+        <option value="">-- Select a Service --</option>
+        <option value="GRC Consultancy">GRC Consultancy</option>
+        <option value="Security Consultancy">Security Consultancy</option>
+        <option value="Infrastructure Consultancy">Infrastructure Consultancy</option>
+        <option value="IT Strategy & Advisory">IT Strategy & Advisory</option>
+        <option value="Compliance Audits">Compliance Audits</option>
+      </select>
 
-        <label for="email">Your Email:</label>
-        <input type="email" name="customer_email" id="email" placeholder="you@example.com" required>
+      <label for="price">Price (USD):</label>
+      <input type="number" name="li_0_price" id="price" readonly required>
 
-        <label for="date">Preferred Date:</label>
-        <input type="date" name="consult_date" id="date" onchange="validateDate(event)" required>
+      <label for="email">Your Email:</label>
+      <input type="email" name="customer_email" id="email" placeholder="you@example.com" required>
 
-        <button type="submit" class="btn">Proceed to Payment</button>
-      </form>
+      <label for="date">Preferred Consultation Date:</label>
+      <input type="date" name="consult_date" id="date" onchange="validateDate(event)" required>
 
-      <div style="text-align:center; margin-top:20px;">
-        <p style="text-decoration:none; padding:10px 20px; border-radius:6px; display:inline-block;">
-          <b>Refund Policy:</b>
-          Please note that all consultancy fees are *non-refundable*. By proceeding with payment, you acknowledge and
-          agree to this policy.
-        </p>
-      </div>
+      <button type="submit" class="btn">Proceed to Payment</button>
+    </form>
+
+    <div class="refund-note" style="text-align:center; margin-top:20px;">
+      <p><strong>Refund Policy:</strong> All consultancy fees are <em>non-refundable</em>. By proceeding with payment, you agree to this policy.</p>
     </div>
 
     <div style="text-align:center; margin-top:20px;">
-      <a href="index.html" style="text-decoration:none; padding:10px 20px; border-radius:6px; display:inline-block;">
-        ⬅ Back to Home
-      </a>
+      <a href="index.html" style="text-decoration:none;">⬅ Back to Home</a>
     </div>
   </section>
 
@@ -154,7 +134,7 @@
     <h2>Contact Us</h2>
     <div class="contact">
       <p>Email: <a href="mailto:sionlinesolutions2025@gmail.com">sionlinesolutions2025@gmail.com</a></p>
-      <p>Address: Plot # , Street # , Sector B, Kashmir Colony</p>
+      <p>Address: Plot #__, Street #__, Sector B, Kashmir Colony</p>
     </div>
   </section>
 
