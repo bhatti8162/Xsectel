@@ -5,6 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us - Xsectel</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #0b0b0b;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+      background: linear-gradient(90deg, #000, #111);
+      border-bottom: 2px solid #e50914;
+    }
+    header h1 {
+      color: #e50914;
+      margin-bottom: 10px;
+    }
+    nav {
+      text-align: center;
+      background: #111;
+      padding: 12px 0;
+      border-bottom: 1px solid #222;
+    }
+    nav a {
+      color: #ccc;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover, nav a.active {
+      color: #e50914;
+    }
+    section {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    h2 {
+      color: #e50914;
+      margin-bottom: 10px;
+    }
+    .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 30px;
+    }
+    .contact-info {
+      max-width: 400px;
+      text-align: left;
+    }
+    .contact-info h3 {
+      color: #e50914;
+      margin-top: 20px;
+    }
+    .contact-info a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    .contact-info a:hover {
+      color: #e50914;
+    }
+    .social-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .social-links a {
+      background: #111;
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    .social-links a:hover {
+      background: #e50914;
+    }
+    .btn {
+      background: #e50914;
+      color: #fff;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 40px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #b40810;
+    }
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #222;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -46,25 +150,12 @@
           <a href="#" title="GitHub"><i class="icon">💻</i></a>
         </div>
       </div>
-
-      <div class="contact-form">
-        <form action="https://formspree.io/f/yourformid" method="POST" class="payment-form">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" placeholder="Your full name" required>
-
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="_replyto" placeholder="you@example.com" required>
-
-          <label for="subject">Subject</label>
-          <input type="text" id="subject" name="subject" placeholder="Subject of your message">
-
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
-
-          <button type="submit" class="btn">Send Message</button>
-        </form>
-      </div>
     </div>
+
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=xsectel.hq@gmail.com&su=Client%20Query&body=Hello%20Xsectel%20Team," 
+       target="_blank">
+      <button class="btn">Send Message</button>
+    </a>
   </section>
 
   <footer>

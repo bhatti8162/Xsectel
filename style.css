@@ -335,6 +335,7 @@ a:hover {
 
 .contact-info {
   background: var(--bg-card);
+  width: 120vw;
   padding: 30px;
   border-radius: 12px;
   border: 1px solid var(--border);
